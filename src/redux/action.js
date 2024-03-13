@@ -7,6 +7,7 @@ import {
     FILTER_TODOS,
     MARK_ALL_COMPLETED,
     UPDATE_SEARCH_TERM,
+    UPDATE_TODO,
 } from "./actionType";
 
 export const addTodo = (text) => ({
@@ -47,3 +48,9 @@ export const updateSearchTerm = (searchTerm) => ({
     type: UPDATE_SEARCH_TERM,
     payload: {searchTerm}
 })
+
+export const updateTodo = (id, text) => ({
+    type: UPDATE_TODO,
+    payload: {id, text}
+
+});

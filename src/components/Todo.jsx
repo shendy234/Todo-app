@@ -12,6 +12,15 @@ const Todo = () => {
   const dispatch = useDispatch();
   const [newTodoText, setNewTodoText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAddTodoWithLoading = async (text) => {
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // mimic api call delay
+    handleAddTodo(text);
+    setIsLoading(false);
+  
+  };
 
   const handleAddTodo = (text) => {
     dispatch(addTodo(text));
@@ -19,7 +28,7 @@ const Todo = () => {
 
   const handleAddTodoClick = () => {
     if (newTodoText.trim() !== '') {
-      handleAddTodo(newTodoText.trim());
+      handleAddTodoWithLoading(newTodoText.trim());
       setNewTodoText('');
     }
   };
@@ -45,7 +54,7 @@ const Todo = () => {
           className="ml-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
           onClick={handleAddTodoClick}
         >
-          <BsPlus size={20} />
+          {isLoading ? 'Loading...' : <BsPlus size={20} />}
         </button>
       </div>
 

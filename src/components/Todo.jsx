@@ -1,10 +1,10 @@
-// Todo.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TodoList from "./TodoList.jsx";
 import FilterButtons from "./FilterButtons.jsx";
 import { BsSearch, BsPlus } from "react-icons/bs";
 import { addTodo, updateSearchTerm } from "../redux/action.js";
+import { useEffect } from 'react';
 
 const Todo = () => {
   const todos = useSelector((state) => state.todos);
@@ -13,10 +13,27 @@ const Todo = () => {
   const [newTodoText, setNewTodoText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [currentTime, setCurrentTime] = useState(null);
+
+  const fetchCurrentTime = async () => {
+    try {
+      const response = await fetch('https://worldtimeapi.org/api/ip');
+      const data = await response.json();
+      const rawDateTime = new Date(data.utc_datetime);
+      const formattedDateTime = `${rawDateTime.toLocaleDateString()} ${rawDateTime.toLocaleTimeString()}`;
+      setCurrentTime(formattedDateTime);
+    } catch (error) {
+      console.error('Error fetching current time:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCurrentTime();
+  }, []);
 
   const handleAddTodoWithLoading = async (text) => {
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // mimic api call delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     handleAddTodo(text);
     setIsLoading(false);
   
@@ -40,7 +57,10 @@ const Todo = () => {
 
   return (
     <div className="max-w-4xl mx-auto sm:mt-8 p-4 bg-gray-100 rounded">
-      <h2 className='mt-3 mb-6 text-2xl font-bold text-center uppercase'>Personal TODO APP</h2>
+      <h2 className='mt-3 mb-6 text-2xl font-bold text-center uppercase'>TODO APP</h2>
+      <div className="flex items-center mb-4">
+        <p className="text-gray-600">Current Time: {currentTime}</p>
+      </div>
       <div className="flex items-center mb-4">
         <input
           id="addTodoInput"

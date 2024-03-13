@@ -80,7 +80,7 @@ const todoReducer = (state = initialState, action) => {
                     searchTerm: state.searchTerm
                 };
             default:
-                return state.todos;
+                return state;
     }
 }
 

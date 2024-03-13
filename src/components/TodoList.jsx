@@ -3,9 +3,9 @@ import TodoItem from "./TodoItem.jsx";
 
 const TodoList = () => {
   const filteredTodos = useSelector((state) => {
-    const todos = state.todos || []; // Ensure that state.todos is defined
-    const filter = state.filter || 'ALL'; // Ensure that state.filter is defined
-    const searchTerm = (state.searchTerm || '').toLowerCase(); // Provide a default value
+    const todos = state.todos || [];
+    const filter = state.filter || 'ALL';
+    const searchTerm = (state.searchTerm || '').toLowerCase();
 
     return todos.filter((todo) => {
       const matchesFilter = (filter === 'COMPLETED' && todo.completed) ||
